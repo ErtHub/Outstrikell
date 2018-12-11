@@ -38,9 +38,6 @@ sat :: (Char -> Bool) -> Parser Char
 sat p = do x <- item
            if p x then return x else failure
 
-digit :: Parser Char
-digit = sat isDigit
-
 char :: Char -> Parser Char
 char x = sat (== x)
 
@@ -71,5 +68,5 @@ capital_letter = sat isUpper
 eval :: String -> ([[Char]], [[Char]])
 eval inp = case parse expr inp of
               [(n, [])] -> n
-              [(_, out)] -> error ("nieskonsumowane " ++ out)
-              [] -> error "bledne wejscie"
+              [(_, out)] -> error (out ++ " could not be consumed")
+              [] -> error "Input error"
