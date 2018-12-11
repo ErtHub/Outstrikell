@@ -1,3 +1,6 @@
+{- This module is responsible for extracting all information required to start solving a puzzle from a string of characters.
+   Calling eval on the string results in creating a pair of lists, of which the first one contains words to find as a list of strings and the second contains rows of table to strike out from as a list of strings. -}
+
 module OSParser where
 
 import Data.Char
