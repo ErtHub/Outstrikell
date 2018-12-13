@@ -53,22 +53,15 @@ many1 p = do v <- p
              return (v:vs)
 
 expr = do words <- (many1(word))
-          table <- (many1(tablerow))
-          return (words, table)
+          return words
 
 word = do res <- many1(capital_letter)
           char '\n'
           return res
 
-tablerow = do char '['
-              res <- (many1(capital_letter))
-              char ']'
-              char '\n'
-              return res
-
 capital_letter = sat isUpper
 
-eval :: String -> ([[Char]], [[Char]])
+eval :: String -> [[Char]]
 eval inp = case parse expr inp of
               [(n, [])] -> n
               [(_, out)] -> error (out ++ " could not be consumed")
