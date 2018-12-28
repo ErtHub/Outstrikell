@@ -2,6 +2,7 @@ module Main where
 
 import System.Environment
 import OSParser
+import OSSolver
 
 main = do
     args <- getArgs
@@ -9,7 +10,7 @@ main = do
       [tablefile, wordsfile] -> do
         table <- readFile tablefile
         words <- readFile wordsfile
-        print (eval table)
-        putChar '\n'
-        print (eval words)
+        print ( findSubstr (head (eval words)) (eval table))
+        -- putChar '\n'
+        -- print (eval words)
       _ -> putStrLn "Wrong number of arguments"
