@@ -1,13 +1,11 @@
 module OSWriter where
 
-import OSSolver
-
 
 printGrid [] = return ()
 printGrid (g:grid) = do putStrLn ( addSpaces g)
                         printGrid grid
                         
-split [] len = []
+split [] _ = []
 split str len = (take len str):split (drop len str) len
 
                           
