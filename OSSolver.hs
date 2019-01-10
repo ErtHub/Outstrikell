@@ -17,7 +17,7 @@ data Direction2D = Direction2D { dir_x :: Direction1D
 -- Data type for representing position on a 2D grid
 data Position2D = Position2D { pos_x :: Int
                              , pos_y :: Int
-                             } deriving (Show)
+                             } deriving (Show, Eq)
 
 -- Data type for representing single found match for the word in a grid
 -- Consists of the starting position, direction and length of the word
@@ -76,3 +76,32 @@ findSubstr substr grid = [Word (move2DBy (Position2D x y) dir match) dir (length
         (dir_y dir == Positive && y == 0) ||
         (dir_y dir == Negative && y == (length grid) - 1)
         ]
+        
+        
+
+findAllSubstr [] grid = []
+findAllSubstr (w:words) grid = findSubstr w grid : findAllSubstr words grid
+
+
+--Function which returns positions for all letters in a word
+getWordPos (Word pos dir len) | len  == 0 = []
+                              | otherwise = pos:getWordPos (Word (move2D pos dir) dir (len - 1 ))
+                              
+                                                    
+  
+--Function which returns positions for all words  
+getAllWordsPos [] = []
+getAllWordsPos (w:words) = getWordPos w:getAllWordsPos words
+
+
+--Function which strikes out all found words
+strikeOutWords grid positions = [ if (elem (Position2D x y) positions) then '-' else grid !! y !! x  |
+    y <- [0..(length grid - 1)],
+    x <- [0..(length (head grid) - 1)]
+    ]
+   
+   
+getHiddenWord grid = filter (\x -> x /= '-') grid
+
+
+solve grid words = getHiddenWord ( strikeOutWords grid (concat ( getAllWordsPos ( concat (findAllSubstr words grid ) ) ) ) )

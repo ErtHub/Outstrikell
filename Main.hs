@@ -3,6 +3,7 @@ module Main where
 import System.Environment
 import OSParser
 import OSSolver
+import OSWriter
 
 main = do
     args <- getArgs
@@ -10,7 +11,10 @@ main = do
       [tablefile, wordsfile] -> do
         table <- readFile tablefile
         words <- readFile wordsfile
-        print ( findSubstr (head (eval words)) (eval table))
-        -- putChar '\n'
-        -- print (eval words)
+    
+        printGrid (eval table)
+        
+        putStr "\nHidden word: " 
+        putStrLn (solve (eval table) (eval words))
+        
       _ -> putStrLn "Wrong number of arguments"
