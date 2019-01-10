@@ -11,10 +11,14 @@ main = do
       [tablefile, wordsfile] -> do
         table <- readFile tablefile
         words <- readFile wordsfile
-    
-        printGrid (eval table)
         
+        let solvedBoard = solve (eval table) (eval words)
+        
+        putStrLn "Original board: "
+        printGrid (eval table)
+        putStrLn "\nSolved board: "
+        printGrid (split solvedBoard (length(head(eval table))))
         putStr "\nHidden word: " 
-        putStrLn (solve (eval table) (eval words))
+        putStrLn (getHiddenWord solvedBoard)
         
       _ -> putStrLn "Wrong number of arguments"

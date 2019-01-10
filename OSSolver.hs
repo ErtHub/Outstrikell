@@ -95,7 +95,8 @@ getAllWordsPos (w:words) = getWordPos w:getAllWordsPos words
 
 
 --Function which strikes out all found words
-strikeOutWords grid positions = [ if (elem (Position2D x y) positions) then '-' else grid !! y !! x  |
+strikeOutWords grid positions = [ if (elem (Position2D x y) positions) then '-' 
+                                                                       else grid !! y !! x  |
     y <- [0..(length grid - 1)],
     x <- [0..(length (head grid) - 1)]
     ]
@@ -104,4 +105,4 @@ strikeOutWords grid positions = [ if (elem (Position2D x y) positions) then '-' 
 getHiddenWord grid = filter (\x -> x /= '-') grid
 
 
-solve grid words = getHiddenWord ( strikeOutWords grid (concat ( getAllWordsPos ( concat (findAllSubstr words grid ) ) ) ) )
+solve grid words = strikeOutWords grid (concat ( getAllWordsPos ( concat (findAllSubstr words grid ) ) ) )
