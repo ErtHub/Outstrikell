@@ -2,6 +2,8 @@ module Main where
 
 import System.Environment
 import OSParser
+import OSSolver
+import OSWriter
 
 main = do
     args <- getArgs
@@ -9,7 +11,14 @@ main = do
       [tablefile, wordsfile] -> do
         table <- readFile tablefile
         words <- readFile wordsfile
-        print (eval table)
-        putChar '\n'
-        print (eval words)
+        
+        let solvedBoard = solve (eval table) (eval words)
+        
+        putStrLn "Original board: "
+        printGrid (eval table)
+        putStrLn "\nSolved board: "
+        printGrid (split solvedBoard (length(head(eval table))))
+        putStr "\nHidden word: " 
+        putStrLn (getHiddenWord solvedBoard)
+        
       _ -> putStrLn "Wrong number of arguments"
